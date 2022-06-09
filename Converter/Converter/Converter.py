@@ -1,9 +1,17 @@
 import docx
 import xlsxwriter
 from datetime import datetime
+import os
 
-inputFile = "../../../../English/English words.docx"
-outputDir = "../../../../English/MemoWordApp/"
+inputDir = "../../../../English/"
+inputFileName = "Only_words_by_parts.docx"
+outputDir = "../../../../English/MemoWordApp/ByParts/"
+
+class Paragraph:
+    def __init__(self, nname, wwords) -> None:
+        self.name = nname
+        self.words = wwords
+    pass
 
 class Word:
     def __init__(self, enVal, ruVal, examp) -> None:
@@ -15,19 +23,35 @@ class Word:
 def getText(filename):
     doc = docx.Document(filename) 
     data = []
+    wordsList = []
+
+   # for i in range(1, len(doc.paragraphs)):
+   #     if doc.paragraphs[i].name == 'Heading 1':
+   #         if doc.paragraphs[i].text[0] != '#':
+
+    usePar = False
 
     for para in doc.paragraphs:
         if para.style.name == 'Heading 1':
-            if para.text == "Vocabulary":
-                enVal=ruVal = ""
-                continue
+            if usePar:
+                wordsList.append(Word(enVal, ruVal, examp));
+                data.append(Paragraph(parName, wordsList.copy()))
+                wordsList.clear()
+            
+            enVal=ruVal=""    
+            
+            if para.text[0] != '#':
+                parName = para.text
+                usePar = True
             else:
-                data.append(Word(enVal, ruVal, examp));
-                break
-
+                parName = ""
+                usePar = False
+            continue
         if para.style.name == 'Normal':
+            if not usePar:
+                continue
             if enVal and ruVal:
-                data.append(Word(enVal, ruVal, examp));
+                wordsList.append(Word(enVal, ruVal, examp));
             if para.text == '\n':
                 break
             enVal, ruVal = para.text.split('\u2013')
@@ -38,42 +62,52 @@ def getText(filename):
             ruVal = ruVal.capitalize()
             examp = ""
             continue
-
         if para.style.name == 'No Spacing':
+            if not usePar:
+                continue
             examp += para.text + '\n'
-
         else:
             break
-        
+
     return data
 
+
+
 # ru | en | part of speech | hint (example)
-def writeText(data, outputDir):
+def writeText(data, outputDir, inputFile):
 
     current_datetime = datetime.now()
+    current_datetime_text = "_" + str(current_datetime.year) +"_" + str(current_datetime.month) + "_" + str(current_datetime.day) + "_" + str(current_datetime.hour) + "_" + str(current_datetime.minute) + "_" + str(current_datetime.second)
+    orig_name, end = inputFile.split('.');
 
-    outputFile = outputDir + "Output"+"_" + str(current_datetime.year) +"_" + str(current_datetime.month) + "_" + str(current_datetime.day) + "_" + str(current_datetime.hour) + "_" + str(current_datetime.minute) + "_" + str(current_datetime.second) + ".xlsx";
-    workbook = xlsxwriter.Workbook(outputFile)
-    worksheet = workbook.add_worksheet()
- 
-    row = 0 
+    outputDirName = outputDir + "Output_" + orig_name + current_datetime_text;
 
-    # here is a magic constant: Memo Word doesn't allow files more than 300 lines
-    # must be updated
-    for i in range(301, 600) :
-        worksheet.write(row, 0, data[i].ruValue)
-        worksheet.write(row, 1, data[i].enValue)
-        worksheet.write(row, 3, data[i].example)
+    os.mkdir(outputDirName)
+
+    for paragraph in data:
+        outputFile = outputDirName + "/" + paragraph.name + ".xlsx";
+        workbook = xlsxwriter.Workbook(outputFile)
+        worksheet = workbook.add_worksheet()
+
+        row = 0
+        for word in paragraph.words:
+            if row >= 300:      #Memo Word doesn't allow files more than 300 lines. 300th and more words are ignored
+                break;
+            worksheet.write(row, 0, word.ruValue)
+            worksheet.write(row, 1, word.enValue)
+            worksheet.write(row, 3, word.example)
  
-        row += 1
-     
-    workbook.close()
+            row += 1
+
+        workbook.close()
     
 
+inputFile = inputDir + inputFileName
 data = getText(inputFile)
 
-writeText(data, outputDir)
+writeText(data, outputDir, inputFileName)
 
 print("Success!")
+
 #for word in data:
 #    print(word.enValue + ":" + word.ruValue + "\n" + word.example + "\n\n\n")
