@@ -26,10 +26,6 @@ def getText(filename):
     data = []
     wordsList = []
 
-   # for i in range(1, len(doc.paragraphs)):
-   #     if doc.paragraphs[i].name == 'Heading 1':
-   #         if doc.paragraphs[i].text[0] != '#':
-
     usePar = False
 
     for para in doc.paragraphs:
