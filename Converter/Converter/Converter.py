@@ -1,7 +1,7 @@
-import docx
-import xlsxwriter
+import docx, xlsxwriter
+import os, shutil
 from datetime import datetime
-import os
+
 
 inputDir = "../../../../English/"
 inputFileName = "Only_words_by_parts.docx"
@@ -75,11 +75,11 @@ def getText(filename):
 
 
 # ru | en | part of speech | hint (example)
-def writeText(data, outputDir, inputFile):
+def writeText(data, outputDir, inputFileName, inputFile):
 
     current_datetime = datetime.now()
     current_datetime_text = "_" + str(current_datetime.year) +"_" + str(current_datetime.month) + "_" + str(current_datetime.day) + "_" + str(current_datetime.hour) + "_" + str(current_datetime.minute) + "_" + str(current_datetime.second)
-    orig_name, end = inputFile.split('.');
+    orig_name, end = inputFileName.split('.');
 
     outputDirName = outputDir + "Output_" + orig_name + current_datetime_text;
 
@@ -93,7 +93,6 @@ def writeText(data, outputDir, inputFile):
             worksheet = workbook.add_worksheet()
 
             row = 0
-            #for word in paragraph.words:
             for j in range(i * maxWordsInFile, (i + 1) * maxWordsInFile):
                 if j == len(paragraph.words):
                     break
@@ -104,12 +103,13 @@ def writeText(data, outputDir, inputFile):
                 row += 1
 
             workbook.close()
+    shutil.copy(inputFile, outputDirName)
     
 
 inputFile = inputDir + inputFileName
 data = getText(inputFile)
 
-writeText(data, outputDir, inputFileName)
+writeText(data, outputDir, inputFileName, inputFile)
 
 print("Success!")
 
