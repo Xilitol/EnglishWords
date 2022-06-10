@@ -6,6 +6,7 @@ import os
 inputDir = "../../../../English/"
 inputFileName = "Only_words_by_parts.docx"
 outputDir = "../../../../English/MemoWordApp/ByParts/"
+maxWordsInFile = 300
 
 class Paragraph:
     def __init__(self, nname, wwords) -> None:
@@ -85,21 +86,24 @@ def writeText(data, outputDir, inputFile):
     os.mkdir(outputDirName)
 
     for paragraph in data:
-        outputFile = outputDirName + "/" + paragraph.name + ".xlsx";
-        workbook = xlsxwriter.Workbook(outputFile)
-        worksheet = workbook.add_worksheet()
+        n = int(len(paragraph.words) / maxWordsInFile)
+        for i in range(0, n + 1):
+            outputFile = outputDirName + "/" + paragraph.name + "Part" + str(i + 1) + ".xlsx";
+            workbook = xlsxwriter.Workbook(outputFile)
+            worksheet = workbook.add_worksheet()
 
-        row = 0
-        for word in paragraph.words:
-            if row >= 300:      #Memo Word doesn't allow files more than 300 lines. 300th and more words are ignored
-                break;
-            worksheet.write(row, 0, word.ruValue)
-            worksheet.write(row, 1, word.enValue)
-            worksheet.write(row, 3, word.example)
+            row = 0
+            #for word in paragraph.words:
+            for j in range(i * maxWordsInFile, (i + 1) * maxWordsInFile):
+                if j == len(paragraph.words):
+                    break
+                worksheet.write(row, 0, paragraph.words[j].ruValue)
+                worksheet.write(row, 1, paragraph.words[j].enValue)
+                worksheet.write(row, 3, paragraph.words[j].example)
  
-            row += 1
+                row += 1
 
-        workbook.close()
+            workbook.close()
     
 
 inputFile = inputDir + inputFileName
