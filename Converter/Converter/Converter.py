@@ -1,11 +1,9 @@
 import docx, xlsxwriter
-import os, shutil
+import os, shutil, sys
 from datetime import datetime
+import re
 
 
-inputDir = "../../../../English/"
-inputFileName = "Only_words_by_parts.docx"
-outputDir = "../../../../English/MemoWordApp/ByParts/"
 maxWordsInFile = 300
 
 class Paragraph:
@@ -29,6 +27,11 @@ def getText(filename):
     usePar = False
 
     for para in doc.paragraphs:
+        if len(para.text) == 0:
+            continue
+        cleanLine = re.sub('[^A-Za-z0-9]+', '', para.text)
+        if len(cleanLine) == 0:
+           continue
         if para.style.name == 'Heading 1':
             if usePar:
                 wordsList.append(Word(enVal, ruVal, examp));
@@ -50,8 +53,13 @@ def getText(filename):
             if enVal and ruVal:
                 wordsList.append(Word(enVal, ruVal, examp));
             if para.text == '\n':
-                break
-            enVal, ruVal = para.text.split('\u2013')
+                continue
+            try:
+                enVal, ruVal = para.text.split('\u2013')
+            except Exception:
+                print("Error splitting line:")
+                print(para.text)
+                exit()
             if enVal[-1] == ' ':
                 enVal = enVal[:-1]
             if ruVal[0] == ' ':
@@ -64,7 +72,12 @@ def getText(filename):
                 continue
             examp += para.text + '\n'
         else:
-            break
+            continue
+
+    if usePar:
+         wordsList.append(Word(enVal, ruVal, examp));
+         data.append(Paragraph(parName, wordsList.copy()))
+         wordsList.clear()
 
     return data
 
@@ -100,6 +113,15 @@ def writeText(data, outputDir, inputFileName, inputFile):
 
             workbook.close()
     shutil.copy(inputFile, outputDirName)
+  
+#inputDir = "../../../../English/"
+#inputFileName = "Only_words_by_parts.docx"
+#outputDir = "../../../../English/MemoWordApp/ByParts/"
+
+inputDir = sys.argv[1]
+inputFileName = sys.argv[2]
+outputDir = sys.argv[3]
+
     
 
 inputFile = inputDir + inputFileName

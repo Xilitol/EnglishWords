@@ -11,6 +11,9 @@
     <OutputPath>.</OutputPath>
     <Name>Converter</Name>
     <RootNamespace>Converter</RootNamespace>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <CommandLineArguments>"Z:\2021\English\WordsLists\" TheMakingOfTheMob.docx Z:\2021\English\MemoWordApp\Movies\</CommandLineArguments>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
