@@ -114,15 +114,9 @@ def writeText(data, outputDir, inputFileName, inputFile):
             workbook.close()
     shutil.copy(inputFile, outputDirName)
   
-#inputDir = "../../../../English/"
-#inputFileName = "Only_words_by_parts.docx"
-#outputDir = "../../../../English/MemoWordApp/ByParts/"
-
 inputDir = sys.argv[1]
 inputFileName = sys.argv[2]
 outputDir = sys.argv[3]
-
-    
 
 inputFile = inputDir + inputFileName
 data = getText(inputFile)
@@ -130,6 +124,3 @@ data = getText(inputFile)
 writeText(data, outputDir, inputFileName, inputFile)
 
 print("Success!")
-
-#for word in data:
-#    print(word.enValue + ":" + word.ruValue + "\n" + word.example + "\n\n\n")
