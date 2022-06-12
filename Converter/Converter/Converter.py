@@ -113,7 +113,10 @@ def writeText(data, outputDir, inputFileName, inputFile):
 
             workbook.close()
     shutil.copy(inputFile, outputDirName)
-  
+ 
+# TODO:
+# Change styles in .docx documents and update this script
+   
 inputDir = sys.argv[1]
 inputFileName = sys.argv[2]
 outputDir = sys.argv[3]
