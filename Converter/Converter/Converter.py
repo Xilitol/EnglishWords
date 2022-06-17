@@ -47,7 +47,7 @@ def getText(filename):
                 parName = ""
                 usePar = False
             continue
-        if para.style.name == 'Normal':
+        if para.style.name == 'Heading 2':
             if not usePar:
                 continue
             if enVal and ruVal:
@@ -67,7 +67,7 @@ def getText(filename):
             ruVal = ruVal.capitalize()
             examp = ""
             continue
-        if para.style.name == 'No Spacing':
+        if para.style.name == 'Normal':
             if not usePar:
                 continue
             examp += para.text + '\n'
@@ -113,10 +113,7 @@ def writeText(data, outputDir, inputFileName, inputFile):
 
             workbook.close()
     shutil.copy(inputFile, outputDirName)
- 
-# TODO:
-# Change styles in .docx documents and update this script
-   
+    
 inputDir = sys.argv[1]
 inputFileName = sys.argv[2]
 outputDir = sys.argv[3]
