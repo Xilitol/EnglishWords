@@ -3,7 +3,6 @@ import os, shutil, sys
 from datetime import datetime
 import re
 
-
 maxWordsInFile = 300
 
 class Paragraph:
@@ -80,8 +79,6 @@ def getText(filename):
          wordsList.clear()
 
     return data
-
-
 
 # ru | en | part of speech | hint (example)
 def writeText(data, outputDir, inputFileName, inputFile):
