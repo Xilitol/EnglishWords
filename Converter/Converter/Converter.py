@@ -97,7 +97,10 @@ def writeText(data, outputDir, inputFileName, inputFile):
     for paragraph in data:
         n = int(len(paragraph.words) / maxWordsInFile)
         for i in range(0, n + 1):
-            outputFile = outputDirName + "/" + paragraph.name + "Part" + str(i + 1) + ".xlsx";
+            if n == 0:
+                outputFile = outputDirName + "/" + paragraph.name + ".xlsx";
+            else:
+                outputFile = outputDirName + "/" + paragraph.name + "Part" + str(i + 1) + ".xlsx";
             workbook = xlsxwriter.Workbook(outputFile)
             worksheet = workbook.add_worksheet()
 
