@@ -30,6 +30,7 @@ The directory is created, its name contains "Output", input file name, date and 
 
 In this directory it will be created a list of .xlsx files, named: section name and "PartX", if needed
 
+Also this script copies the input file to the output directory
 
 ### Each .xlsx file
 1st colomn: original words
@@ -46,4 +47,9 @@ In this directory it will be created a list of .xlsx files, named: section name 
 
 ```
 Converter.py "C:\Data\English\WordsLists\" "TheMakingOfTheMob.docx" "C:\Data\English\MemoWordApp\Movies\"
+```
+
+To use you need Python3 and install packages: 
+```
+pip install python-docx xlsxwriter
 ```
