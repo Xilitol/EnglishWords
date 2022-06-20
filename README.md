@@ -5,7 +5,7 @@ Memoword App: https://memoword.online/en/
 
 This script converts .docx file to .xlsx file formatted for Memoword App
 
-## Input file structure:
+## Input file structure
 You can find the example file (TheMakingOfTheMob.docx) in the repository
 
 ### Name of section
@@ -34,13 +34,18 @@ Also this script copies the input file to the output directory
 
 ### Each .xlsx file
 1st colomn: original words
+
 2nd colomn: translation
+
 3rd colomn: -
+
 4th colomn: the hint (examples)
 
 ## Input arguments:
 1st: input directory
+
 2st: input file name
+
 3rd: output directory
 
 ## Example
