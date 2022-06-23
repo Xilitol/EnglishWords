@@ -35,8 +35,6 @@ def updOneVal(val):
     outVal = ' '.join([str(item) for item in testVal])
     return outVal
 
-
-
 def updateRuAndEnVal(ruVal, enVal):
     ruVal = updOneVal(ruVal)
     enVal = updOneVal(enVal)
