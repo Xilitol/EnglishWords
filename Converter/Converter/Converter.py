@@ -17,6 +17,36 @@ class Word:
         self.ruValue = ruVal
         self.example = examp
     pass
+
+def updOneVal(val):
+    if val[-1] == ' ':
+        val = val[:-1]
+    if val[0] == ' ':
+        val = val[1:]
+
+    slash = '/'
+    goodslash = '/ '
+    testVal = val.split()
+    if len(testVal) > 1:
+       for i in range(0,len(testVal)):
+           if len(testVal[i]) > 15 and slash in testVal[i]:
+              testVal[i] = testVal[i].replace(slash, goodslash)
+
+    outVal = ' '.join([str(item) for item in testVal])
+    return outVal
+
+
+
+def updateRuAndEnVal(ruVal, enVal):
+    ruVal = updOneVal(ruVal)
+    enVal = updOneVal(enVal)
+    ruVal = ruVal.capitalize()
+
+    return ruVal, enVal
+    
+    
+
+
     
 def getText(filename):
     doc = docx.Document(filename) 
@@ -59,11 +89,7 @@ def getText(filename):
                 print("Error splitting line:")
                 print(para.text)
                 exit()
-            if enVal[-1] == ' ':
-                enVal = enVal[:-1]
-            if ruVal[0] == ' ':
-                ruVal = ruVal[1:]
-            ruVal = ruVal.capitalize()
+            ruVal, enVal = updateRuAndEnVal(ruVal, enVal)
             examp = ""
             continue
         if para.style.name == 'Normal':
