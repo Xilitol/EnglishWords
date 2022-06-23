@@ -42,10 +42,6 @@ def updateRuAndEnVal(ruVal, enVal):
 
     return ruVal, enVal
     
-    
-
-
-    
 def getText(filename):
     doc = docx.Document(filename) 
     data = []
@@ -89,11 +85,15 @@ def getText(filename):
                 exit()
             ruVal, enVal = updateRuAndEnVal(ruVal, enVal)
             examp = ""
+            examp_number = 1
             continue
         if para.style.name == 'Normal':
             if not usePar:
                 continue
-            examp += para.text + '\n'
+            if examp_number != 1:
+                examp += "\n"
+            examp += str(examp_number) + ". " + para.text
+            examp_number += 1
         else:
             continue
 
