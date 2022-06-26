@@ -111,7 +111,7 @@ def writeText(data, outputDir, inputFileName, inputFile):
     current_datetime_text = "_" + str(current_datetime.year) +"_" + str(current_datetime.month) + "_" + str(current_datetime.day) + "_" + str(current_datetime.hour) + "_" + str(current_datetime.minute) + "_" + str(current_datetime.second)
     orig_name, end = inputFileName.split('.');
 
-    outputDirName = outputDir + orig_name +  "_[Output]" + current_datetime_text + "]";
+    outputDirName = outputDir + orig_name +  "_[Output]" + current_datetime_text;
 
     os.mkdir(outputDirName)
 
