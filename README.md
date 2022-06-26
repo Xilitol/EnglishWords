@@ -42,11 +42,11 @@ Also this script copies the input file to the output directory
 4th colomn: the hint (examples)
 
 ## Input arguments:
-1st: input directory
+1st way: 1 argument (filename). Output directory will be created in script's directory
 
-2st: input file name
+2nd way: 2 arguments: inputDirectory filename. Output directory will be created in inputDirectory
 
-3rd: output directory
+3rd way: 3 arguments: inputDirectory filename outputDirectory. Output directory will be created in outputDirectory
 
 ## Example
 
