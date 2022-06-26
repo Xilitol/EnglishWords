@@ -111,7 +111,7 @@ def writeText(data, outputDir, inputFileName, inputFile):
     current_datetime_text = "_" + str(current_datetime.year) +"_" + str(current_datetime.month) + "_" + str(current_datetime.day) + "_" + str(current_datetime.hour) + "_" + str(current_datetime.minute) + "_" + str(current_datetime.second)
     orig_name, end = inputFileName.split('.');
 
-    outputDirName = outputDir + "Output_" + orig_name + current_datetime_text;
+    outputDirName = outputDir + orig_name +  "_[Output]" + current_datetime_text + "]";
 
     os.mkdir(outputDirName)
 
@@ -137,10 +137,20 @@ def writeText(data, outputDir, inputFileName, inputFile):
 
             workbook.close()
     shutil.copy(inputFile, outputDirName)
-    
-inputDir = sys.argv[1]
-inputFileName = sys.argv[2]
-outputDir = sys.argv[3]
+  
+if len(sys.argv) < 2:
+    print("Arguments error!")
+elif len(sys.argv) == 2:
+    inputDir = sys.path[0] + "\\"
+    outputDir = sys.path[0] + "\\"
+    inputFileName = sys.argv[1]
+else:
+   inputDir = sys.argv[1]
+   inputFileName = sys.argv[2]
+   if len(sys.argv) > 3:
+       outputDir = sys.argv[3]
+   else:
+       outputDir = inputDir
 
 inputFile = inputDir + inputFileName
 data = getText(inputFile)
